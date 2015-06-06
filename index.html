@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html ng-app="listaTelefonica">
+<head lang="en">
+    <meta charset="UTF-8">
+    <link href="lib/bootstrap/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="css/app.css" rel="stylesheet" type="text/css">
+    <title>Lista Telefônica</title>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/locale/pt-br.js"></script>
+    <script src="lib/angular/angular-messages.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/controllers/listaTelefonicaCtrl.js"></script>
+    <script src="js/services/contatosAPIService.js"></script>
+    <script src="js/services/operadorasAPIservice.js"></script>
+    <script src="js/services/serialGeneratorService.js"></script>
+    <script src="js/filters/nameFilter.js"></script>
+    <script src="js/filters/ellipsisFilter.js"></script>
+    <script src="js/directives/uiDateDirective.js"></script>
+</head>
+<body ng-controller="listaTelefonicaCtrl">
+    <div class="jumbotron">
+        <h3>{{app}}</h3>
+        <input class="form-control" type="text" ng-model="busca" placeholder="Pesquisar..."/>
+        <table class="table table-bordered">
+            <tr>
+                <th></th>
+                <th>Serial</th>
+                <th><a href="" ng-click="ordernarPor('nome')">Nome</a></th>
+                <th><a href="" ng-click="ordernarPor('telefone')">Telefone</a></th>
+                <th>Operadora</th>
+                <th>Data Criação</th>
+            </tr>
+            <!--
+                Em javascript pode-se passar nomes de identificadores dentro de uma mesma string
+                no caso abaixo selecionado e negrito recebem e mesma propriedade, logo pode-se
+                juntar os dois identificadores numa string só =)
+            -->
+
+            <tr ng-class="{'selecionado negrito': contato.selecionado}" ng-repeat="contato in contatos | filter:busca | orderBy: criterio:ordenacao">
+                <td><input type="checkbox" ng-model="contato.selecionado"/></td>
+                <td>{{contato.serial}}</td>
+                <td>{{contato.nome | name | ellipsis}}</td>
+                <td>{{contato.telefone}}</td>
+                <td>{{contato.operadora.nome}}</td>
+                <td>{{contato.data | date:'dd/MM/yyyy HH:mm'}}</td>
+            </tr>
+        </table>
+        <hr/>
+        <form name="contatoForm">
+            <input class="form-control" type="text" ng-model="contato.nome" name="nome" ng-minlength="5" placeholder="Nome" ng-required="true"/>
+            <div ng-messages="contatoForm.nome.$error">
+                <div class="alert-danger" ng-message="required">
+                    Por favor preencha o campo nome!
+                </div>
+                <div class="alert-danger" ng-message="minlength">
+                    O campo nome deve conter no mínimo 5 caracteres.
+                </div>
+            </div>
+            <input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-pattern="/^\d{4,5}-\d{4}$/" ng-required="true"/>
+            <div class="alert-danger" ng-show="contatoForm.telefone.$error.required && contatoForm.telefone.$dirty">
+                Por favor preencha o campo telefone!
+            </div>
+            <div class="alert-danger" ng-show="contatoForm.telefone.$error.pattern">
+                O formato do campo telefone deve ser DDDD-DDDD!
+            </div>
+            <input class="form-control" type="text" ng-model="contato.data" placeholder="Data" name="data" ui-date/>
+            <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome + ' (' + (operadora.preco | currency) + ')' group by operadora.categoria for operadora in operadoras | orderBy: 'nome'">
+                <option value="">Selecione uma operadora...</option>
+            </select>
+        </form>
+        <button class="btn btn-primary" ng-click="addContato(contato)" ng-disabled="contatoForm.$invalid">Adicionar contato</button>
+        <button class="btn btn-danger" ng-click="delContatos(contatos)">Apagar contato(s)</button>
+    </div>
+    <div ng-include="'view/footer.html'"></div>
+</body>
+</html>
