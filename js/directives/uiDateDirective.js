@@ -17,11 +17,13 @@ angular.module("listaTelefonica").directive("uiDate", function(){
             };
 
             element.bind("keyup",function(){
-                ctrl.$setViewValue(_formatDate(ctrl.$viewValue));
-                ctrl.$render();
+                if(ctrl.$viewValue) {
+                    ctrl.$setViewValue(_formatDate(ctrl.$viewValue));
+                    ctrl.$render();
+                }
             });
 
-            ctrl.$parsers.push(function (value) {
+            ctrl.$parsers.push(function (value) { // value = valor retornado da propriedade value do input
                 if(value.length === 10){
                     return value;
                 }
