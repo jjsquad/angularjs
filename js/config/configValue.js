@@ -3,5 +3,6 @@
  */
 angular.module("listaTelefonica").constant("config", {
     serialLength: 32,
+    baseUrl: "http://localhost/angularjs/routes",
     appName: "Aplicações com AngularJS"
 });

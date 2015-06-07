@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="DataSourceManagerImpl" format="xml" hash="3019328407">
-    <data-source source="LOCAL" name="MySQL - @localhost" uuid="a8ebe0fb-bfce-4057-9a26-7fdff61dcb2c">
-      <driver-ref>mysql</driver-ref>
+  <component name="DataSourceManagerImpl" format="xml" hash="2818432908">
+    <data-source source="LOCAL" name="SQLite - agenda" uuid="f7c479c9-fbc9-44b7-a9b6-107263540bcc">
+      <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
-      <jdbc-url>jdbc:mysql://localhost:3306</jdbc-url>
-      <driver-properties>
-        <property name="zeroDateTimeBehavior" value="convertToNull" />
-        <property name="tinyInt1isBit" value="false" />
-        <property name="characterEncoding" value="utf8" />
-        <property name="characterSetResults" value="utf8" />
-        <property name="yearIsDateType" value="false" />
-      </driver-properties>
+      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
+      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/database/agenda.db</jdbc-url>
       <libraries />
     </data-source>
   </component>
